@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Website Architect Workspace</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,700;1,300&family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600;700&family=Roboto+Slab:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="dark-theme">
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- ==========================================
+             LEFT SIDEBAR: Brand & Navigation
+             ========================================== -->
+        <aside class="sidebar-left">
+            <div class="brand-container">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-compass-drafting brand-icon-gold"></i>
+                </div>
+                <div class="brand-info">
+                    <span class="brand-name">AI Website Architect</span>
+                    <span class="brand-version">v2.5</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav" id="main-nav">
+                <a href="#" class="nav-item active" data-view="dashboard">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-view="new-blueprint">
+                    <i class="fa-solid fa-file-circle-plus"></i>
+                    <span>New Blueprint</span>
+                </a>
+                <a href="#" class="nav-item" data-view="blueprints">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>Blueprints</span>
+                </a>
+                <a href="#" class="nav-item" data-view="assets">
+                    <i class="fa-solid fa-images"></i>
+                    <span>Assets</span>
+                </a>
+                <a href="#" class="nav-item" data-view="intelligence">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Intelligence</span>
+                </a>
+                <a href="#" class="nav-item" data-view="preview">
+                    <i class="fa-solid fa-eye"></i>
+                    <span>Preview</span>
+                </a>
+                <a href="#" class="nav-item" data-view="analytics">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item" data-view="settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <!-- Sidebar Bottom Widget -->
+            <div class="sidebar-footer">
+                <div class="project-status-card" id="project-status-widget">
+                    <div class="status-card-header">
+                        <span>Project Status</span>
+                        <button class="close-card-btn" id="close-status-btn" title="Toggle Card"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="status-radial-container">
+                        <svg class="radial-svg" viewBox="0 0 80 80">
+                            <circle class="radial-bg" cx="40" cy="40" r="32"></circle>
+                            <circle class="radial-bar" id="project-progress-bar" cx="40" cy="40" r="32" stroke-dasharray="201" stroke-dashoffset="20"></circle>
+                        </svg>
+                        <div class="radial-value" id="project-progress-val">90%</div>
+                    </div>
+                    <div class="status-card-details">
+                        <span class="status-detail-title">Complete</span>
+                        <span class="status-detail-sub" id="last-saved-time">Last processed: Just now</span>
+                    </div>
+                    <div class="auto-saved-badge">
+                        <i class="fa-solid fa-circle-check"></i> Auto-saved
+                    </div>
+                </div>
+
+                <!-- User Profile -->
+                <div class="user-profile-widget" id="user-profile-btn" title="Click to view profile & account settings">
+                    <div class="user-avatar-container">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Alex Morgan" class="user-avatar" id="profile-widget-avatar">
+                        <div class="avatar-online-dot"></div>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="profile-widget-name">Alex Morgan</span>
+                        <span class="user-role" id="profile-widget-role">Pro Architect <span class="premium-badge">PRO</span></span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-muted" style="margin-left: auto; font-size: 11px;"></i>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==========================================
+             MAIN CONTENT: Dynamic Multipage Views
+             ========================================== -->
+        <main class="main-workspace">
+            <!-- Header bar -->
+            <header class="workspace-header">
+                <div class="breadcrumb-container">
+                    <span class="crumb-parent">Projects</span>
+                    <i class="fa-solid fa-chevron-right crumb-separator"></i>
+                    <span class="crumb-parent" id="breadcrumb-category">Modern SaaS Landing Page</span>
+                    <i class="fa-solid fa-chevron-right crumb-separator"></i>
+                    <span class="crumb-active" id="breadcrumb-current-view">Dashboard</span>
+                </div>
+
+                <div class="workspace-actions">
+                    <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
+                    
+                    <!-- Notification Bell with Dropdown -->
+                    <div class="notif-wrapper">
+                        <button class="notif-btn" id="notif-toggle-btn" title="View Notifications">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notif-badge"></span>
+                        </button>
+                        <div class="notif-dropdown" id="notif-dropdown">
+                            <div class="notif-dropdown-header">
+                                <span>Notifications (3)</span>
+                                <button class="clear-notif-btn" id="clear-notifs">Clear all</button>
+                            </div>
+                            <div class="notif-list" id="notif-list">
+                                <div class="notif-item unread">
+                                    <i class="fa-solid fa-sparkles text-gold"></i>
+                                    <div class="notif-content">
+                                        <span class="notif-title">New Blueprint Generated</span>
+                                        <span class="notif-time">2 mins ago • Aura Luxury Stay (94% Conversion)</span>
+                                    </div>
+                                </div>
+                                <div class="notif-item unread">
+                                    <i class="fa-solid fa-circle-check text-green"></i>
+                                    <div class="notif-content">
+                                        <span class="notif-title">WCAG 2.1 AAA Contrast Validated</span>
+                                        <span class="notif-time">15 mins ago • Contrast ratio 12.4:1 passed</span>
+                                    </div>
+                                </div>
+                                <div class="notif-item">
+                                    <i class="fa-solid fa-image text-blue"></i>
+                                    <div class="notif-content">
+                                        <span class="notif-title">Asset Scoring Ingested</span>
+                                        <span class="notif-time">1 hour ago • 4 image candidates evaluated</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Help Button -->
+                    <button class="help-btn" id="help-toggle-btn" title="System Help & Guide">
+                        <i class="fa-regular fa-circle-question"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- VIEW CONTAINER -->
+            <div id="views-container">
+                
+                <!-- ==========================================
+                     1. DASHBOARD VIEW
+                     ========================================== -->
+                <section class="page-view active" id="view-dashboard">
+                    <!-- Project Details Banner -->
+                    <div class="project-banner">
+                        <div class="project-title-area">
+                            <div class="project-title-row">
+                                <h1 id="project-business-name">Modern SaaS Landing Page</h1>
+                                <span class="status-badge-gold">PRO</span>
+                            </div>
+                            <p class="project-subtitle" id="project-archetype-desc">AI-Powered Blueprint & Design System</p>
+                        </div>
+
+                        <div class="banner-controls">
+                            <!-- Responsive Switcher -->
+                            <div class="responsive-selector">
+                                <button class="viewport-btn active" data-viewport="desktop" title="Desktop Viewport">
+                                    <i class="fa-solid fa-desktop"></i>
+                                </button>
+                                <button class="viewport-btn" data-viewport="tablet" title="Tablet Viewport">
+                                    <i class="fa-solid fa-tablet-screen-button"></i>
+                                </button>
+                                <button class="viewport-btn" data-viewport="mobile" title="Mobile Viewport">
+                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                </button>
+                                <div class="viewport-width-indicator">
+                                    <span id="current-width-label">1440px</span>
+                                </div>
+                            </div>
+
+                            <button class="control-btn-dark" id="export-json-btn"><i class="fa-solid fa-file-export"></i> <span>Export</span></button>
+                            <button class="control-btn-gold" id="deploy-blueprint-btn"><i class="fa-solid fa-rocket"></i> <span>Deploy</span></button>
+                        </div>
+                    </div>
+
+                    <!-- Workspace Tabs -->
+                    <div class="workspace-tabs">
+                        <button class="tab-btn active" data-content="canvas-view"><i class="fa-solid fa-diagram-project"></i> Blueprint</button>
+                        <button class="tab-btn" data-content="wireframe-view"><i class="fa-solid fa-border-none"></i> Wireframe</button>
+                        <button class="tab-btn" data-content="seo-rules-view"><i class="fa-solid fa-magnifying-glass"></i> SEO & Accessibility</button>
+                        <button class="tab-btn" data-content="raw-data-view"><i class="fa-solid fa-code"></i> JSON Output</button>
+                    </div>
+
+                    <!-- TAB CONTENT CONTAINER -->
+                    <div class="tab-content">
+                        <!-- Tab 1: Blueprint Canvas -->
+                        <div class="tab-pane active" id="canvas-view">
+                            <div class="canvas-wrapper">
+                                <div class="canvas-grid" id="blueprint-canvas">
+                                    <svg class="canvas-connections-svg" id="canvas-lines"></svg>
+                                    <div class="node-flow-container" id="node-flow-list"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Visual Wireframe Draft -->
+                        <div class="tab-pane" id="wireframe-view">
+                            <div class="wireframe-container">
+                                <div class="wireframe-mockup-wrapper" id="wireframe-viewport">
+                                    <div class="wireframe-header-nav">Logo & Navigation Bar</div>
+                                    <div class="wireframe-sections" id="wireframe-sections-list"></div>
+                                    <div class="wireframe-footer">Footer Navigation & Social</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: SEO and Accessibility Guidelines -->
+                        <div class="tab-pane" id="seo-rules-view">
+                            <div class="rules-grid">
+                                <div class="rules-card">
+                                    <h3><i class="fa-solid fa-spider"></i> Technical SEO Priority Tasks</h3>
+                                    <ul class="rules-list" id="seo-rules-list"></ul>
+                                </div>
+                                <div class="rules-card">
+                                    <h3><i class="fa-solid fa-mobile-button"></i> Mobile UX & Gestalt Principles</h3>
+                                    <ul class="rules-list" id="mobile-rules-list"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 4: Raw JSON Output -->
+                        <div class="tab-pane" id="raw-data-view">
+                            <div class="json-code-container">
+                                <div class="json-header">
+                                    <span>blueprint_schema.json</span>
+                                    <button class="copy-json-btn" id="copy-json"><i class="fa-regular fa-copy"></i> Copy Code</button>
+                                </div>
+                                <pre><code id="json-code-block">Loading blueprint JSON data...</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Dashboard Analytics -->
+                    <div class="dashboard-analytics-grid">
+                        <div class="analytics-card">
+                            <div class="analytics-header">
+                                <span>Conversion Score</span>
+                                <i class="fa-solid fa-bullseye card-icon-green"></i>
+                            </div>
+                            <div class="analytics-body">
+                                <span class="analytics-num" id="metric-conversion">94<span class="scale-max">/100</span></span>
+                                <span class="analytics-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+                            </div>
+                            <div class="analytics-bar-bg">
+                                <div class="analytics-bar-fill bg-green" id="bar-conversion" style="width: 94%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="analytics-header">
+                                <span>User Experience</span>
+                                <i class="fa-solid fa-wand-magic-sparkles card-icon-blue"></i>
+                            </div>
+                            <div class="analytics-body">
+                                <span class="analytics-num" id="metric-ux">91<span class="scale-max">/100</span></span>
+                                <span class="analytics-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +8%</span>
+                            </div>
+                            <div class="analytics-bar-bg">
+                                <div class="analytics-bar-fill bg-blue" id="bar-ux" style="width: 91%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="analytics-header">
+                                <span>Performance</span>
+                                <i class="fa-solid fa-bolt card-icon-orange"></i>
+                            </div>
+                            <div class="analytics-body">
+                                <span class="analytics-num" id="metric-performance">96<span class="scale-max">/100</span></span>
+                                <span class="analytics-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +15%</span>
+                            </div>
+                            <div class="analytics-bar-bg">
+                                <div class="analytics-bar-fill bg-orange" id="bar-performance" style="width: 96%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="analytics-card">
+                            <div class="analytics-header">
+                                <span>SEO Score</span>
+                                <i class="fa-solid fa-chart-simple card-icon-purple"></i>
+                            </div>
+                            <div class="analytics-body">
+                                <span class="analytics-num" id="metric-seo">89<span class="scale-max">/100</span></span>
+                                <span class="analytics-trend trend-up"><i class="fa-solid fa-arrow-trend-up"></i> +7%</span>
+                            </div>
+                            <div class="analytics-bar-bg">
+                                <div class="analytics-bar-fill bg-purple" id="bar-seo" style="width: 89%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     2. NEW BLUEPRINT VIEW (QUESTIONNAIRE PAGE)
+                     ========================================== -->
+                <section class="page-view" id="view-new-blueprint">
+                    <div class="page-header-block">
+                        <h2><i class="fa-solid fa-sparkles text-gold"></i> AI Website Architect Questionnaire</h2>
+                        <p>Generate a tailored UX blueprint by submitting brand parameters and media intelligence.</p>
+                    </div>
+
+                    <div class="preset-buttons-row">
+                        <span>Preset Templates:</span>
+                        <button class="preset-chip" id="preset-luxury"><i class="fa-solid fa-hotel"></i> Luxury Villa</button>
+                        <button class="preset-chip" id="preset-saas"><i class="fa-solid fa-cloud"></i> SaaS Platform</button>
+                        <button class="preset-chip" id="preset-legal"><i class="fa-solid fa-scale-balanced"></i> Corporate Legal</button>
+                        <button class="preset-chip" id="preset-medical"><i class="fa-solid fa-hospital"></i> Dental Clinic</button>
+                    </div>
+
+                    <form id="standalone-questionnaire-form" class="full-page-form-grid">
+                        <div class="form-column">
+                            <h3>1. Business Context</h3>
+                            <div class="form-group">
+                                <label>Business Name</label>
+                                <input type="text" id="pg_biz_name" name="business_name" value="Apex Financial Consulting" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Business Category</label>
+                                <input type="text" id="pg_biz_cat" name="business_category" value="Corporate & Finance" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Target Audience</label>
+                                <input type="text" id="pg_biz_audience" name="target_audience" value="Enterprise C-Level Executives" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Primary Location</label>
+                                <input type="text" id="pg_biz_loc" name="location" value="New York, USA" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Brand Hex Colors (comma separated)</label>
+                                <input type="text" id="pg_brand_colors" name="brand_colors" value="#0F172A, #2563EB, #38BDF8" required>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <h3>2. Copy & Services</h3>
+                            <div class="form-group">
+                                <label>Services Offered</label>
+                                <input type="text" id="pg_services" name="services" value="Capital Advisory, Risk Assessment, M&A Valuation" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Packages</label>
+                                <div id="pg-packages-list">
+                                    <div class="package-input-row">
+                                        <input type="text" class="pg-pkg-name" value="Executive Audit" required>
+                                        <input type="text" class="pg-pkg-price" value="$5000/mo" required>
+                                    </div>
+                                    <div class="package-input-row">
+                                        <input type="text" class="pg-pkg-name" value="Full Advisory" value="Enterprise Retainer">
+                                        <input type="text" class="pg-pkg-price" value="$12000/mo">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Notes / Brief</label>
+                                <textarea id="pg_notes" rows="4">Emphasize security, institutional stability, and high legibility across executive viewports.</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-column">
+                            <h3>3. Asset Scoring (Project #1)</h3>
+                            <div class="assets-scroll-container">
+                                <div class="asset-score-inputs">
+                                    <span class="asset-input-title">Asset 1 (Hero Candidate)</span>
+                                    <div class="form-row-2">
+                                        <input type="text" class="pg-ast-id" value="img_finance_hero" required>
+                                        <input type="url" class="pg-ast-url" value="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80" required>
+                                    </div>
+                                    <div class="form-row-3">
+                                        <input type="number" class="pg-ast-light" step="0.01" value="0.91" title="Lighting" required>
+                                        <input type="number" class="pg-ast-comp" step="0.01" value="0.94" title="Composition" required>
+                                        <input type="number" class="pg-ast-luxury" step="0.01" value="0.88" title="Luxury" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="full-page-form-footer">
+                            <button type="submit" class="control-btn-gold"><i class="fa-solid fa-wand-magic-sparkles"></i> Execute ML Intelligence Engine</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- ==========================================
+                     3. BLUEPRINTS LIBRARY VIEW
+                     ========================================== -->
+                <section class="page-view" id="view-blueprints">
+                    <div class="page-header-block">
+                        <h2><i class="fa-solid fa-folder-open text-gold"></i> Stored Website Blueprints</h2>
+                        <p>Manage and load stored layout recommendations generated by the engine.</p>
+                    </div>
+
+                    <div class="blueprints-grid" id="blueprints-cards-grid">
+                        <!-- Loaded by JS from /api/v1/blueprints -->
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     4. ASSETS LIBRARY VIEW
+                     ========================================== -->
+                <section class="page-view" id="view-assets">
+                    <div class="page-header-block">
+                        <h2><i class="fa-solid fa-images text-gold"></i> Asset Intelligence Library</h2>
+                        <p>Features extracted from ML Project #1 image scoring pipeline.</p>
+                    </div>
+
+                    <div class="assets-library-grid" id="assets-library-grid">
+                        <!-- Loaded by JS from /api/v1/assets -->
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     5. INTELLIGENCE RULES VIEW
+                     ========================================== -->
+                <section class="page-view" id="view-intelligence">
+                    <div class="page-header-block">
+                        <h2><i class="fa-solid fa-brain text-gold"></i> ML UX Decision Rules & Heuristics</h2>
+                        <p>Explainable AI guidelines powering visual placement, Fitts's law, and WCAG luminance calculations.</p>
+                    </div>
+
+                    <div class="intelligence-grid">
+                        <div class="intelligence-card">
+                            <h3><i class="fa-solid fa-bullseye"></i> Fitts's Law CTA Engine</h3>
+                            <p>Optimizes button dimensions and placement to minimize visual targeting latency on desktop and touch devices.</p>
+                            <ul class="intel-list">
+                                <li>Minimum Touch Padding: <strong>&ge; 48px</strong></li>
+                                <li>Placement Math: Aligns CTAs to bottom-left on left-weighted hero visual focus.</li>
+                            </ul>
+                        </div>
+
+                        <div class="intelligence-card">
+                            <h3><i class="fa-solid fa-layer-group"></i> Gestalt Visual Grouping</h3>
+                            <p>Uses laws of proximity, similarity, and common region to arrange pricing columns and service packages.</p>
+                            <ul class="intel-list">
+                                <li>Proximity Grid: Standardized 8px / 16px / 24px spacing rhythms.</li>
+                                <li>Center Highlight: Emphasizes primary conversion packages.</li>
+                            </ul>
+                        </div>
+
+                        <div class="intelligence-card full-width">
+                            <h3><i class="fa-solid fa-calculator"></i> Interactive WCAG Luminance Calculator</h3>
+                            <div class="luminance-calculator-widget">
+                                <div class="calc-inputs-row">
+                                    <div class="form-group">
+                                        <label>Background Hex</label>
+                                        <input type="text" id="calc-bg" value="#0F172A">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Text Hex</label>
+                                        <input type="text" id="calc-text" value="#FFFFFF">
+                                    </div>
+                                    <button class="control-btn-dark" id="run-contrast-calc">Check Contrast</button>
+                                </div>
+                                <div class="calc-result-box" id="calc-result">
+                                    Contrast Ratio: <strong>15.8:1</strong> — <span class="text-green"><i class="fa-solid fa-circle-check"></i> WCAG 2.1 AAA Passed</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     6. FULL SITE PREVIEW VIEW
+                     ========================================== -->
+                <section class="page-view" id="view-preview">
+                    <div class="page-header-block preview-header-row">
+                        <div>
+                            <h2><i class="fa-solid fa-eye text-gold"></i> Live Website Draft Preview</h2>
+                            <p>Real-time rendering of generated layout, typography, colors, and content sequence.</p>
+                        </div>
+                        <div class="responsive-selector preview-viewport-selector">
+                            <button class="viewport-btn active" data-preview-vp="desktop"><i class="fa-solid fa-desktop"></i> Desktop</button>
+                            <button class="viewport-btn" data-preview-vp="tablet"><i class="fa-solid fa-tablet"></i> Tablet</button>
+                            <button class="viewport-btn" data-preview-vp="mobile"><i class="fa-solid fa-mobile"></i> Mobile</button>
+                        </div>
+                    </div>
+
+                    <div class="site-preview-frame-container">
+                        <div class="site-preview-wrapper" id="site-preview-frame">
+                            <!-- Dynamically generated site mock -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     7. ANALYTICS VIEW
+                     ========================================== -->
+                <section class="page-view" id="view-analytics">
+                    <div class="page-header-block">
+                        <h2><i class="fa-solid fa-chart-line text-gold"></i> Design System Analytics</h2>
+                        <p>Performance latency, WCAG compliance rates, and prediction scores.</p>
+                    </div>
+
+                    <div class="analytics-page-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">FastAPI Pipeline Latency</span>
+                            <span class="stat-value text-green" id="stat-latency">38 ms</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">WCAG AAA Compliance</span>
+                            <span class="stat-value text-gold">100% Pass</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Total Blueprints Stored</span>
+                            <span class="stat-value" id="stat-total-bp">3</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Predicted Conversion Lift</span>
+                            <span class="stat-value text-green">+14.2%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ==========================================
+                     8. SETTINGS VIEW
+                     ========================================== -->
+                <section class="page-view" id="view-settings">
+                    <div class="page-header-block">
+                        <h2><i class="fa-solid fa-gear text-gold"></i> Engine Configurations & Settings</h2>
+                        <p>Configure scoring thresholds, WCAG compliance strictness, and auto-save frequencies.</p>
+                    </div>
+
+                    <form id="settings-form" class="settings-form-container">
+                        <div class="setting-item">
+                            <div class="setting-desc">
+                                <h4>Strict WCAG 2.1 AAA Compliance</h4>
+                                <p>Enforces contrast ratios >= 7.0:1 for text overlays.</p>
+                            </div>
+                            <input type="checkbox" id="set_strict_wcag" class="toggle-checkbox" checked>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-desc">
+                                <h4>Hero Composite Lighting Weight</h4>
+                                <p>Weight assigned to lighting score in Hero selection formula (Default: 35%).</p>
+                            </div>
+                            <input type="range" id="set_weight_light" min="0" max="1" step="0.05" value="0.35">
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-desc">
+                                <h4>Auto-Save Blueprints</h4>
+                                <p>Automatically persists blueprints generated from questionnaires to memory.</p>
+                            </div>
+                            <input type="checkbox" id="set_autosave" class="toggle-checkbox" checked>
+                        </div>
+
+                        <button type="submit" class="control-btn-gold"><i class="fa-solid fa-floppy-disk"></i> Save Configurations</button>
+                    </form>
+                </section>
+
+            </div>
+
+        </main>
+
+        <!-- ==========================================
+             RIGHT SIDEBAR: Design System & Live Spec
+             ========================================== -->
+        <aside class="sidebar-right" id="sidebar-right-container">
+            <!-- Asset Intelligence Section -->
+            <div class="spec-section">
+                <div class="spec-section-header">
+                    <h3>Asset Intelligence</h3>
+                    <button class="spec-toggle-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+                
+                <div class="spec-section-body">
+                    <div class="overall-asset-score-row">
+                        <div class="score-badge-circle">
+                            <svg class="radial-svg-small" viewBox="0 0 50 50">
+                                <circle class="radial-bg" cx="25" cy="25" r="21"></circle>
+                                <circle class="radial-bar" id="asset-radial-bar" cx="25" cy="25" r="21" stroke-dasharray="132" stroke-dashoffset="10"></circle>
+                            </svg>
+                            <div class="radial-value-small" id="overall-asset-score-val">92</div>
+                        </div>
+                        <div class="score-desc-block">
+                            <span class="score-grade-text">Excellent</span>
+                            <span class="score-sub-text">Optimized for success</span>
+                        </div>
+                    </div>
+
+                    <div class="asset-metrics-list">
+                        <div class="asset-metric-item">
+                            <span class="metric-label">Layout Composition</span>
+                            <span class="metric-val" id="asset-composition-val">94</span>
+                        </div>
+                        <div class="asset-metric-item">
+                            <span class="metric-label">Visual Hierarchy</span>
+                            <span class="metric-val" id="asset-hierarchy-val">92</span>
+                        </div>
+                        <div class="asset-metric-item">
+                            <span class="metric-label">Color Harmony</span>
+                            <span class="metric-val" id="asset-harmony-val">89</span>
+                        </div>
+                        <div class="asset-metric-item">
+                            <span class="metric-label">Typography pairing</span>
+                            <span class="metric-val" id="asset-typography-val">91</span>
+                        </div>
+                        <div class="asset-metric-item">
+                            <span class="metric-label">Spacing & Rhythm</span>
+                            <span class="metric-val" id="asset-spacing-val">93</span>
+                        </div>
+                        <div class="asset-metric-item">
+                            <span class="metric-label">Accessibility check</span>
+                            <span class="metric-val text-green" id="asset-accessibility-val">Pass</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typography System Section -->
+            <div class="spec-section">
+                <div class="spec-section-header">
+                    <h3>Typography System</h3>
+                    <button class="spec-toggle-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+                
+                <div class="spec-section-body">
+                    <div class="typography-preview-card">
+                        <div class="font-badge-row">
+                            <div class="font-letter" id="font-lead-letter">Ag</div>
+                            <div class="font-family-details">
+                                <span class="font-primary-name" id="font-heading-name">Inter</span>
+                                <span class="font-weight-desc" id="font-body-name">Variable Font</span>
+                            </div>
+                        </div>
+                        
+                        <div class="typography-hierarchy-list">
+                            <div class="typo-row">
+                                <span class="typo-tag">H1</span>
+                                <span class="typo-desc" id="font-h1-spec">Heading 1 (56px)</span>
+                            </div>
+                            <div class="typo-row">
+                                <span class="typo-tag">H2</span>
+                                <span class="typo-desc" id="font-h2-spec">Heading 2 (36px)</span>
+                            </div>
+                            <div class="typo-row">
+                                <span class="typo-tag">Body</span>
+                                <span class="typo-desc" id="font-body-spec">Body Regular (16px)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Palette Section -->
+            <div class="spec-section">
+                <div class="spec-section-header">
+                    <h3>Color Palette</h3>
+                    <button class="spec-toggle-btn"><i class="fa-solid fa-chevron-down"></i></button>
+                </div>
+                
+                <div class="spec-section-body">
+                    <div class="color-palette-widget">
+                        <span class="color-sub-heading">Primary Brand Colors</span>
+                        <div class="color-chips-row" id="brand-colors-list"></div>
+
+                        <span class="color-sub-heading">Neutral Layout Colors</span>
+                        <div class="color-chips-row" id="neutral-colors-list"></div>
+
+                        <span class="color-sub-heading">Accessibility Check</span>
+                        <div class="accessibility-status-chip text-green" id="wcag-compliance-badge">
+                            <i class="fa-solid fa-circle-check"></i> WCAG 2.1 AAA Passed
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Historical Performance Metrics Line Graph -->
+            <div class="spec-section">
+                <div class="spec-section-header">
+                    <h3>Performance Metrics</h3>
+                </div>
+                <div class="spec-section-body">
+                    <div class="metrics-chart-container">
+                        <svg class="metrics-svg" viewBox="0 0 300 120" id="performance-line-chart">
+                            <line x1="30" y1="20" x2="280" y2="20" stroke="#1e293b" stroke-dasharray="2"></line>
+                            <line x1="30" y1="50" x2="280" y2="50" stroke="#1e293b" stroke-dasharray="2"></line>
+                            <line x1="30" y1="80" x2="280" y2="80" stroke="#1e293b" stroke-dasharray="2"></line>
+                            <line x1="30" y1="100" x2="280" y2="100" stroke="#1e293b" stroke-width="1.5"></line>
+                            
+                            <text x="5" y="25" fill="#64748b" font-size="10">100</text>
+                            <text x="10" y="60" fill="#64748b" font-size="10">50</text>
+                            <text x="15" y="105" fill="#64748b" font-size="10">0</text>
+                            
+                            <path id="chart-line-conv" d="M30,50 L92.5,45 L155,30 L217.5,25 L280,20" fill="none" stroke="#22c55e" stroke-width="2.5"></path>
+                            <path id="chart-line-ux" d="M30,65 L92.5,50 L155,42 L217.5,35 L280,28" fill="none" stroke="#3b82f6" stroke-width="2.5"></path>
+                            <path id="chart-line-perf" d="M30,30 L92.5,25 L155,28 L217.5,20 L280,18" fill="none" stroke="#f97316" stroke-width="2.5"></path>
+                            
+                            <text x="30" y="115" fill="#64748b" font-size="9">Hero</text>
+                            <text x="85" y="115" fill="#64748b" font-size="9">About</text>
+                            <text x="145" y="115" fill="#64748b" font-size="9">Pricing</text>
+                            <text x="210" y="115" fill="#64748b" font-size="9">Gallery</text>
+                            <text x="260" y="115" fill="#64748b" font-size="9">Contact</text>
+                        </svg>
+                        <div class="chart-legend-row">
+                            <span class="legend-item"><span class="legend-dot bg-green"></span> Conversion</span>
+                            <span class="legend-item"><span class="legend-dot bg-blue"></span> UX</span>
+                            <span class="legend-item"><span class="legend-dot bg-orange"></span> Speed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- System Help Modal -->
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-circle-question text-gold"></i> AI Architect System Guide</h3>
+                <button class="close-modal-btn" id="close-help-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <h4>Core Decision Engine Formulas</h4>
+                <ul class="intel-list">
+                    <li><strong>Hero Image Score</strong> = 0.35(Lighting) + 0.35(Composition) + 0.20(Luxury) + 0.10(Contrast)</li>
+                    <li><strong>Relative Luminance</strong> L = 0.2126R + 0.7152G + 0.0722B</li>
+                    <li><strong>Fitts's Law Target Size</strong> = Min touch height 48px</li>
+                </ul>
+                <h4 style="margin-top: 14px;">Navigation Shortcuts</h4>
+                <p style="font-size: 12px; color: var(--text-secondary);">Click any module on the left navigation sidebar to switch between Dashboard, Questionnaire, Saved Blueprints, Assets, Rules Engine, Draft Preview, Analytics, and Engine Settings.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile & Account Modal -->
+    <div id="profile-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-gear text-gold"></i> User Profile & Account Settings</h3>
+                <button class="close-modal-btn" id="close-profile-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body" style="display: flex; flex-direction: column; gap: 18px;">
+                <!-- User Header Info -->
+                <div style="display: flex; align-items: center; gap: 16px; background-color: var(--bg-tertiary); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color);">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Alex Morgan" style="width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-primary);" id="modal-avatar-preview">
+                    <div>
+                        <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary);" id="modal-profile-name">Alex Morgan</h4>
+                        <p style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">Senior UX Architect • <span class="status-badge-gold">PRO MEMBER</span></p>
+                    </div>
+                </div>
+
+                <!-- Editable Form Fields -->
+                <form id="profile-settings-form" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" id="edit-profile-name" value="Alex Morgan" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Architect Role Title</label>
+                        <input type="text" id="edit-profile-role" value="Lead AI Architect" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Avatar Photo URL</label>
+                        <input type="url" id="edit-profile-avatar" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80">
+                    </div>
+                    
+                    <!-- Usage & API Key Card -->
+                    <div style="background-color: var(--bg-primary); padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                            <span>Monthly Engine Quota</span>
+                            <strong style="color: var(--gold-primary);">18 / 50 Blueprints</strong>
+                        </div>
+                        <div class="analytics-bar-bg" style="height: 6px;">
+                            <div class="analytics-bar-fill bg-gold" style="width: 36%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px; font-size: 11px;">
+                            <span style="color: var(--text-secondary);">API Key: <code style="color: var(--text-primary); background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">demo_api_key...3a</code></span>
+                            <button type="button" class="copy-json-btn" id="copy-api-key-btn" style="padding: 2px 8px; font-size: 10px;"><i class="fa-regular fa-copy"></i> Copy Key</button>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                        <button type="button" class="clear-notif-btn" id="logout-profile-btn" style="font-size: 13px; color: #EF4444;"><i class="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                        <button type="submit" class="control-btn-gold" style="padding: 8px 18px;"><i class="fa-solid fa-floppy-disk"></i> Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-notif" class="toast-container">Blueprint successfully loaded.</div>
+
+    <!-- Main Dashboard Controller Script -->
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
